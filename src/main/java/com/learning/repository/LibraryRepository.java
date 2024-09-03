@@ -2,6 +2,8 @@ package com.learning.repository;
 
 import com.learning.controller.Library;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface LibraryRepository extends JpaRepository<Library,String> {
+@Repository
+public interface LibraryRepository extends JpaRepository<Library,String>,LibraryRepositoryCustom {
 }

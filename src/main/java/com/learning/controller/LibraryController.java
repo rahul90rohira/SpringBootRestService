@@ -5,9 +5,9 @@ import com.learning.service.LibraryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class LibraryController {
@@ -18,12 +18,13 @@ public class LibraryController {
     @Autowired
     LibraryService libraryService;
 
+    LibraryResponse libraryResponse = new LibraryResponse();
+
 
     @PostMapping("/addBook")
-    public ResponseEntity<LibraryResponse> addBook(@RequestBody Library library)
-    {
-        String id= libraryService.buildID(library.getIsbn(),library.getAisle());
-        LibraryResponse libraryResponse = new LibraryResponse();
+    public ResponseEntity<LibraryResponse> addBook(@RequestBody Library library) {
+        String id = libraryService.buildID(library.getIsbn(), library.getAisle());
+
 
         if (!libraryService.checkBookAlreadyExist(id)) {
 
@@ -38,9 +39,7 @@ public class LibraryController {
 
 //       return libraryResponse;
             return new ResponseEntity<LibraryResponse>(libraryResponse, HttpStatus.CREATED);
-        }
-        else
-        {
+        } else {
             libraryResponse.setMsg("book already exist");
             libraryResponse.setId(id);
             return new ResponseEntity<>(libraryResponse, HttpStatus.ACCEPTED);
@@ -48,6 +47,31 @@ public class LibraryController {
 
     }
 
+    @GetMapping("/getBooks/{id}")
+    public ResponseEntity getBookById(@PathVariable String id) {
+        if (libraryService.checkBookAlreadyExist(id)) {
+            Library library = libraryRepository.findById(id).get();
+            return new ResponseEntity<>(library,HttpStatus.ACCEPTED);
+           // return library;
+        }
+        else {
+            libraryResponse.setMsg("Book not exist of id "+id);
+            return new ResponseEntity(libraryResponse,HttpStatus.NOT_FOUND);
+
+            // or we can achive using try catch exception . In ,catch we can throw exception using below class
+            //throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
 
 
+    @GetMapping("/getBooks/author")
+    public List<Library> getBookDetailsByAuthor(@RequestParam(value = "authorname") String author) {
+
+         List<Library> bookDetails =libraryRepository.findBookDetailsByAuthor(author);
+         return bookDetails;
+
+    }
 }
+
+
+

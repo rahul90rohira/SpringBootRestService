@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class LibraryController {
@@ -71,6 +72,41 @@ public class LibraryController {
          return bookDetails;
 
     }
+
+    @PutMapping("/updateBook/{id}")
+    public Library LibraryupdateBook(@PathVariable String id, @RequestBody Library library) {
+             Library existingBook= libraryRepository.findById(id).get();
+             existingBook.setIsbn(library.getIsbn());
+             existingBook.setAisle(library.getAisle());
+             existingBook.setAuthor(library.getAuthor());
+             existingBook.setBook_name(library.getBook_name());
+             libraryRepository.save(existingBook);
+//             libraryResponse.setMsg("book updated");
+//             libraryResponse.setId(id);
+             return existingBook ;
+
+
+
+    }
+
+    @PostMapping("/deletebook")
+    public String deleteBook(@RequestBody Library library) {
+
+
+
+
+        libraryRepository.delete(library);
+
+
+         
+
+
+         return "Book Deleted" ;
+
+
+    }
+
+
 }
 
 

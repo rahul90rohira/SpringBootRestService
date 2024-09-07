@@ -1,0 +1,55 @@
+# Library
+
+###
+# @name /greeting
+GET http://localhost:8080/greeting?
+    name=rahul
+Authorization: Basic user 5f4bb96d-6ea8-4574-8b4d-9f41653a2784
+
+###
+# @name /getAllBook
+GET http://localhost:8080/getAllBook
+Authorization: Basic user 5f4bb96d-6ea8-4574-8b4d-9f41653a2784
+
+###
+# @name /deletebook
+POST http://localhost:8080/deletebook
+Content-Type: application/json
+
+{
+  "id": "studio232323"
+}
+
+###
+# @name /updateBook/studio232323
+PUT http://localhost:8080/updateBook/studio232323
+Content-Type: application/json
+
+{
+  "isbn": "studo",
+  "aisle": 342,
+  "book_name": "encyclepedia",
+  "author": "rrohira"
+}
+
+###
+# @name /getBooks/author
+GET http://localhost:8080/getBooks/author?
+    authorname=rr
+
+###
+# @name /getBooks/studio232323
+GET http://localhost:8080/getBooks/studio232323
+
+###
+# @name /addBook
+POST http://localhost:8080/addBook
+Content-Type: application/json
+
+{
+  "isbn": "studio",
+  "aisle": 2323231,
+  "author": "rr",
+  "book_name": "boot",
+  "id": "23"
+}

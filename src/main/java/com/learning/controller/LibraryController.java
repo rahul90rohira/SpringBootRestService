@@ -42,13 +42,14 @@ public class LibraryController {
             libraryResponse.setMsg("new book added");
             libraryResponse.setId(id);
 
-//       return libraryResponse;
+//          return libraryResponse;
             return new ResponseEntity<LibraryResponse>(libraryResponse, HttpStatus.CREATED);
-        } else {
+        }
+        else {
             logger.info("book already exist");
             libraryResponse.setMsg("book already exist");
             libraryResponse.setId(id);
-            return new ResponseEntity<>(libraryResponse, HttpStatus.ACCEPTED);
+            return new ResponseEntity<LibraryResponse>(libraryResponse, HttpStatus.ACCEPTED);
         }
 
     }
